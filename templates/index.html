@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Report Risk Classifier</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Medical Report Risk Classifier</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".pdf" required>
+        <button type="submit">Predict Risk</button>
+    </form>
+    {% if result %}
+        <div class="result">{{ result }}</div>
+    {% endif %}
+</div>
+</body>
+</html>

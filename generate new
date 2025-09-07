@@ -1,0 +1,45 @@
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+
+# ------------------------
+# Sample texts
+# ------------------------
+samples = {
+    "LOW": """Patient presented with mild skin rash. 
+Diagnosis: Dermatitis. 
+Treatment: Topical cream prescribed. 
+Follow-up in 2 weeks.""",
+
+    "MODERATE": """Patient admitted for abdominal pain. 
+History suggests possible appendicitis. 
+Tests ordered: CT scan, blood work. 
+Surgery may be required depending on findings.""",
+
+    "HIGH": """Patient rushed to ER with severe chest pain and difficulty breathing. 
+ECG showed abnormal rhythms. 
+High suspicion of myocardial infarction. 
+Emergency cardiac catheterization recommended immediately."""
+}
+
+# ------------------------
+# Function to create PDFs
+# ------------------------
+def create_pdf(text, filename):
+    c = canvas.Canvas(filename, pagesize=A4)
+    width, height = A4
+    c.setFont("Helvetica", 12)
+    
+    # Write text line by line
+    y = height - 80
+    for line in text.split("\n"):
+        c.drawString(50, y, line.strip())
+        y -= 20
+    
+    c.save()
+    print(f"✅ Generated {filename}")
+
+# ------------------------
+# Generate PDFs
+# ------------------------
+for risk, text in samples.items():
+    create_pdf(text, f"{risk}_risk_report.pdf")

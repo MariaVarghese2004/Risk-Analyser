@@ -19,19 +19,18 @@ LOW_RISK = [
     "Gastroenterology", "Pediatrics"
 ]
 
+# Any specialties not in HIGH or LOW → MODERATE
 def label_risk(specialty):
     if specialty in HIGH_RISK:
-        return 1  # HIGH
+        return 2  # HIGH
     elif specialty in LOW_RISK:
         return 0  # LOW
     else:
-        return 0  # default LOW unless you want a "MEDIUM" class
+        return 1  # MODERATE
 
 # -------------------------
 # Load dataset
 # -------------------------
-# Download mtsamples from Kaggle:
-# https://www.kaggle.com/datasets/tboyle10/medicaltranscriptions
 df = pd.read_csv("mtsamples.csv")
 
 # Add risk label
@@ -50,7 +49,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # -------------------------
 pipeline = Pipeline([
     ("tfidf", TfidfVectorizer(stop_words="english", max_features=5000)),
-    ("clf", LogisticRegression(max_iter=500))
+    ("clf", LogisticRegression(max_iter=1000, multi_class="ovr"))
 ])
 
 pipeline.fit(X_train, y_train)
